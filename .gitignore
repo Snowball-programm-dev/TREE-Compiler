@@ -13,6 +13,5 @@
 
 # Stuff for building the project
 Makefile
-test.ast
-test.toks
+test.*
 src/__pycache__
