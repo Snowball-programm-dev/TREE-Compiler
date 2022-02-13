@@ -1,0 +1,7 @@
+//TREE(0.0.1)
+
+func main(string[1] args)
+{
+    object io=get(bios).console;
+    io.print("Hello, World!");
+}
