@@ -18,4 +18,4 @@
  {'type': 'name', 'value': 'print'},
  {'type': 'bracket', 'kind': '(', 'value': []},
  {'type': 'right_paren', 'value': ')'}]},
- {'type': 'right_curl_paren', 'value': '}'}], 28)},
+ {'type': 'right_curl_paren', 'value': '}'}], 27)},
