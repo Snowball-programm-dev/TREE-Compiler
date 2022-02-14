@@ -4,7 +4,9 @@ keyWords = [
     "String","return",
     "string","ret",
     "class","int",
-    "float","object"
+    "float","object",
+    "public", "private",
+    "func"
 ]
 
 def tokenizer(inpExpr):
@@ -151,11 +153,11 @@ def tokenizer(inpExpr):
                         "type": "key_word",
                         "value": value
                     })
-            elif value == "func":
-                toks.append({
-                    "type": "function",
-                    "value": value
-                })
+            #elif value == "func":
+            #    toks.append({
+            #        "type": "function",
+            #        "value": value
+            #    })
             else:
                 toks.append({
                     "type": "name",

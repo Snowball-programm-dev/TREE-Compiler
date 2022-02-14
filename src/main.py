@@ -1,4 +1,4 @@
-import lexer, parser
+import lexer, parser, json
 
 source=open("src/example/test.te","r")
 tokFile=open("test.toks","w")
@@ -6,19 +6,16 @@ astFile=open("test.ast", "w")
 
 toks = lexer.tokenizer(source.read())
 stringToks = f"{toks}"
-NewStringToks = ""
-for tok in stringToks.split("},"):
-    NewStringToks+=tok+"},\n"
+NewStringToks = json.dumps({"toks": toks})
 
-tokFile.write(f"toks = {NewStringToks}")
+
+tokFile.write(NewStringToks)
 
 
 parsed=parser.parser(toks)
 
-newParsed=""
 
-for a in str(parsed).split("},"):
-    newParsed+=a+"},\n"
+newParsed=json.dumps({"ast": parsed[0]})
 
 astFile.write(newParsed)
 

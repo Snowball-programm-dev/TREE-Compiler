@@ -1,21 +1,73 @@
-([{'type': 'function', 'value': 'func'},
- {'type': 'name', 'value': 'main'},
- {'type': 'bracket', 'kind': '(', 'value': [{'type': 'key_word', 'value': 'string'},
- {'type': 'bracket', 'kind': '[', 'value': []},
- {'type': 'right_edged_paren', 'value': ']'}]},
- {'type': 'right_paren', 'value': ')'},
- {'type': 'bracket', 'kind': '{', 'value': [{'type': 'key_word', 'value': 'object'},
- {'type': 'name', 'value': 'io'},
- {'type': 'equ', 'value': '='},
- {'type': 'name', 'value': 'get'},
- {'type': 'bracket', 'kind': '(', 'value': []},
- {'type': 'right_paren', 'value': ')'},
- {'type': 'dot', 'value': '.'},
- {'type': 'name', 'value': 'console'},
- {'type': 'semi', 'value': ';'},
- {'type': 'name', 'value': 'io'},
- {'type': 'dot', 'value': '.'},
- {'type': 'name', 'value': 'print'},
- {'type': 'bracket', 'kind': '(', 'value': []},
- {'type': 'right_paren', 'value': ')'}]},
- {'type': 'right_curl_paren', 'value': '}'}], 27)},
+{
+    "ast": [
+        {
+            "type": "class",
+            "id": "me",
+            "params": [],
+            "Value": [
+                {
+                    "type": "var",
+                    "id": "life",
+                    "vis": true,
+                    "kind": "string",
+                    "Value": {
+                        "type": "Call",
+                        "id": "",
+                        "Value": []
+                    }
+                }, {
+                    "type": "var",
+                    "id": "name",
+                    "vis": false,
+                    "kind": "string",
+                    "Value": []
+                },
+                [
+                    {
+                        "type": "function",
+                        "id": "Panda",
+                        "params": [],
+                        "Value": [
+                            {
+                                "type": "var",
+                                "id": "hunger",
+                                "vis": "",
+                                "kind": "int",
+                                "Value": []
+                            }
+                        ]
+                    }
+                ]
+            ]
+        }, {
+            "type": "function",
+            "id": "main",
+            "params": [
+                {
+                    "type": "key_word",
+                    "value": "string"
+                }, {
+                    "type": "bracket",
+                    "kind": "[",
+                    "value": []
+                }, {
+                    "type": "name",
+                    "value": "args"
+                }
+            ],
+            "Value": [
+                {
+                    "type": "var",
+                    "id": "life",
+                    "vis": "",
+                    "kind": "string",
+                    "Value": {
+                        "type": "Call",
+                        "id": "",
+                        "Value": []
+                    }
+                }
+            ]
+        }
+    ]
+}

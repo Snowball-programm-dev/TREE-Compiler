@@ -1,7 +1,18 @@
-//TREE(0.0.1)
+
+class me
+{
+    public string life = "yes";
+    private string name;
+
+    func Panda()
+    {
+        int hunger;
+    }
+
+}
+
 
 func main(string[] args)
 {
-    object io=get(bios).console;
-    io.print("Hello, World!");
+    string life = me.life;
 }
