@@ -5,3 +5,4 @@ file=main.py
 run:
 	clear
 	${cc} ${src}/${file}
+
