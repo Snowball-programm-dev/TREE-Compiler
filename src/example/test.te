@@ -4,15 +4,17 @@ class me
     public string life = "yes";
     private string name;
 
-    func Panda()
+    func panda()
     {
-        int hunger;
+        this.name = "Panda";
+        ret this.name;
     }
 
 }
 
-
 func main(string[] args)
 {
-    string life = me.life;
+    me new_me = new me();
+    string life = new_me.life;
+    string name = new_me.panda();
 }

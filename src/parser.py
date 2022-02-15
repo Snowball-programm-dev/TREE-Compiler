@@ -1,7 +1,23 @@
 
-class node:
+class RootNode:
     Type = ""
     Id = ""
+    def stats(self):
+        return{
+            "type": self.Type,
+            "id": self.Id
+        }
+
+class NEW(RootNode):
+    Params = []
+    def stats(self):
+        return{
+                "type": self.Type,
+                "id": self.Id,
+                "params": self.Params
+            }
+
+class node(RootNode):
     Value = []
     def stats(self):
         return{
@@ -9,6 +25,8 @@ class node:
             "id": self.Id,
             "Value": self.Value
         }
+
+
 
 class Class(node):
     Params = []
@@ -32,6 +50,10 @@ class Var(node):
             "Value": self.Value
         }
 
+class VALUE:
+    value=None
+    def stats(self):
+        return self.value
 
 def ERROR(toks, i):
     print(f"error at token: {i}")
@@ -132,6 +154,7 @@ def parser(toks):
                     Node.Type = "class"
                     i+=1
                     Node.Id = toks[i].get("value")
+                    TYPES.append(toks[i].get("value"))
                     i+=1
                     if toks[i].get("kind") == "(":
                         Node.Params = toks[i].get("value")
@@ -183,32 +206,94 @@ def parser(toks):
 
         Node = node()
 
-        print(toks)
-
-
-        if toks[i].get("type") == "key_word":
-            Node = Var()
-            Node.Type = "var"
-            while i<len(toks):
-                if toks[i].get("type") == "key_word":
-                    if toks[i].get("value") == "private":
-                        Node.visability = False
-                    elif toks[i].get("value") == "public":
-                        Node.visability = True
-                    elif toks[i].get("value") in TYPES:
-                        Node.Kind = toks[i].get("value")
-                elif toks[i].get("type") == "name":
-                    Node.Id = toks[i].get("value")
-                elif toks[i].get("type") == "equ":
+        
+        if toks[i].get("type") == "key_word" and toks[i].get("value") != "this" or toks[i].get("value") in TYPES:
+            #print(toks[i:])
+            if toks[i].get("value") != "new" and toks[i].get("value") != "ret" and toks[i].get("value") != "return":
+                Node = Var()
+                Node.Type = "var"
+                while i<len(toks):
+                    if toks[i].get("type") == "key_word" or toks[i].get("value") in TYPES:
+                        if toks[i].get("value") == "private":
+                            Node.visability = False
+                        elif toks[i].get("value") == "public":
+                            Node.visability = True
+                        elif toks[i].get("value") in TYPES or "name":
+                            Node.Kind = toks[i].get("value")
+                    elif toks[i].get("type") == "name" and Node.Id == "":
+                        Node.Id = toks[i].get("value")
+                    elif toks[i].get("type") == "equ":
+                        i+=1
+                        Node.Value = parseStepThree(toks[i:])
                     i+=1
-                    Node.Value = parseStepThree(toks[i:])
+            elif toks[i].get("value") == "new":
+                Node = NEW()
+                Node.Type = toks[i].get("value")
                 i+=1
+                Node.Id = toks[i].get("value")
+                i+=1
+                Node.Params = toks[i].get("value")
+
+                return Node.stats()
+            elif toks[i].get("value") == "ret" or toks[i].get("value") == "return":
+                Node = node()
+                Node.Type = "return"
+                Node.Id = toks[i].get("value")
+                i+=1
+                #print(toks[i:])
+                Node.Value = parseStepThree(toks[i:])
+                return Node.stats()
+        elif toks[i].get("type") == "string":
+            Node = VALUE()
+            Node.value = toks[i].get("value")
+            i+=1
+        
+        
+        elif i+2 < len(toks):
+            if toks[i+1].get("type") == "dot":
+                Node = node()
+                node.Id = toks[i].get("value")
+                Node.Type = "modul"
+                i+=2
+                print(toks[i:])
+                Node.Value = parseStepThree(toks[i:])
+
+                print(Node.stats())
+            elif toks[i+2].get("type") == "equ":
+                Node = Var()
+                Node.Type = "var"
+                if toks[i].get("value") in TYPES or "name":
+                    Node.Kind = toks[i].get("value")
+                    i+=1
+                Node.Value = parseStepThree(toks[i:])
+
+
+        elif toks[i].get("type") == "name":
+            if i+1 < len(toks):
+                if toks[i+1].get("type") != "equ":
+                    Node = RootNode()
+                    Node.Type = "identifyer"
+                    Node.Id = toks[i].get("value")
+                
+                else:
+                    Node = node()
+                    Node.Type = "assignment"
+                    Node.Id = toks[i].get("value")
+                    i+=2
+                    Node.Value = parseStepThree(toks[i:])
+
+            else:
+                Node = RootNode()
+                Node.Type = "identifyer"
+                Node.Id = toks[i].get("value")
+
+
+
+
+
         else:
-            Node = node()
-            Node.Type = "Call"
+            #print(toks[i:])
             pass
-
-
         return Node.stats()
 
 

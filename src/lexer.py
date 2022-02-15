@@ -6,7 +6,8 @@ keyWords = [
     "class","int",
     "float","object",
     "public", "private",
-    "func"
+    "func", "new",
+    "this"
 ]
 
 def tokenizer(inpExpr):

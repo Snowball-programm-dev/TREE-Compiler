@@ -10,11 +10,7 @@
                     "id": "life",
                     "vis": true,
                     "kind": "string",
-                    "Value": {
-                        "type": "Call",
-                        "id": "",
-                        "Value": []
-                    }
+                    "Value": "yes"
                 }, {
                     "type": "var",
                     "id": "name",
@@ -25,15 +21,28 @@
                 [
                     {
                         "type": "function",
-                        "id": "Panda",
+                        "id": "panda",
                         "params": [],
                         "Value": [
                             {
-                                "type": "var",
-                                "id": "hunger",
-                                "vis": "",
-                                "kind": "int",
-                                "Value": []
+                                "type": "modul",
+                                "id": "this",
+                                "Value": {
+                                    "type": "",
+                                    "id": "this",
+                                    "Value": []
+                                }
+                            }, {
+                                "type": "return",
+                                "id": "ret",
+                                "Value": {
+                                    "type": "modul",
+                                    "id": "this",
+                                    "Value": {
+                                        "type": "identifyer",
+                                        "id": "name"
+                                    }
+                                }
                             }
                         ]
                     }
@@ -58,13 +67,39 @@
             "Value": [
                 {
                     "type": "var",
-                    "id": "life",
+                    "id": "this",
+                    "vis": "",
+                    "kind": "me",
+                    "Value": {
+                        "type": "new",
+                        "id": "me",
+                        "params": []
+                    }
+                }, {
+                    "type": "var",
+                    "id": "new_me",
                     "vis": "",
                     "kind": "string",
                     "Value": {
-                        "type": "Call",
-                        "id": "",
-                        "Value": []
+                        "type": "modul",
+                        "id": "new_me",
+                        "Value": {
+                            "type": "identifyer",
+                            "id": "life"
+                        }
+                    }
+                }, {
+                    "type": "var",
+                    "id": "new_me",
+                    "vis": "",
+                    "kind": "string",
+                    "Value": {
+                        "type": "modul",
+                        "id": "new_me",
+                        "Value": {
+                            "type": "identifyer",
+                            "id": "panda"
+                        }
                     }
                 }
             ]
