@@ -77,11 +77,11 @@ def parser(toks):
 
 
 
-    def idk(toks):
-        nToks = []
-        for tok in toks:
-            nToks.append(tok.get("value"))
-        return nToks
+    #def idk(toks):
+    #    nToks = []
+    #    for tok in toks:
+    #        nToks.append(tok.get("value"))
+    #    return nToks
 
 
     def parseStepOne(toks, end_tok):
@@ -208,7 +208,6 @@ def parser(toks):
 
         
         if toks[i].get("type") == "key_word" and toks[i].get("value") != "this" or toks[i].get("value") in TYPES:
-            #print(toks[i:])
             if toks[i].get("value") != "new" and toks[i].get("value") != "ret" and toks[i].get("value") != "return":
                 Node = Var()
                 Node.Type = "var"
@@ -240,7 +239,6 @@ def parser(toks):
                 Node.Type = "return"
                 Node.Id = toks[i].get("value")
                 i+=1
-                #print(toks[i:])
                 Node.Value = parseStepThree(toks[i:])
                 return Node.stats()
         elif toks[i].get("type") == "string":
@@ -255,18 +253,17 @@ def parser(toks):
                 node.Id = toks[i].get("value")
                 Node.Type = "modul"
                 i+=2
-                print(toks[i:])
                 Node.Value = parseStepThree(toks[i:])
 
-                print(Node.stats())
             elif toks[i+2].get("type") == "equ":
                 Node = Var()
                 Node.Type = "var"
-                if toks[i].get("value") in TYPES or "name":
+                if toks[i].get("value") in TYPES or toks[i].get("value") == "name":
                     Node.Kind = toks[i].get("value")
                     i+=1
                 Node.Value = parseStepThree(toks[i:])
 
+                
 
         elif toks[i].get("type") == "name":
             if i+1 < len(toks):
@@ -292,7 +289,6 @@ def parser(toks):
 
 
         else:
-            #print(toks[i:])
             pass
         return Node.stats()
 
@@ -300,7 +296,6 @@ def parser(toks):
 
 
 
-    #return parseStepOne(toks, None), None
     return parseStepTwo(parseStepOne(toks, None)[0])[0], None
     
 
