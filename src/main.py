@@ -4,6 +4,7 @@ source=open("src/example/test.te","r")
 tokFile=open("test.toks","w")
 astFile=open("test.ast", "w")
 outputFile=open("out.cpp", "w")
+headerFile=open("header.h", "w")
 
 
 toks = lexer.tokenizer(source.read())
@@ -18,7 +19,8 @@ astFile.write(newParsed)
 
 cppCode = code_generation.code_generation(ast)
 
-outputFile.write(cppCode)
+headerFile.write(cppCode[0])
+outputFile.write(cppCode[1])
 
 
 source.close()

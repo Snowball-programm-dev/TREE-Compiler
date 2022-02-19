@@ -34,7 +34,7 @@ def tokenizer(inpExpr):
         if char == "{":
             toks.append({
                 "type": "left_curl_paren",
-                "value":"{"
+                "Value":"{"
             })
             current += 1
             myChar+=1
@@ -42,7 +42,7 @@ def tokenizer(inpExpr):
         if char == "}":
             toks.append({
                 "type": "right_curl_paren",
-                "value":"}"
+                "Value":"}"
             })
             current += 1
             myChar+=1
@@ -50,7 +50,7 @@ def tokenizer(inpExpr):
         if char == "(":
             toks.append({
                 "type":"left_paren",
-                "value":"("
+                "Value":"("
             })
             current += 1
             myChar+=1
@@ -58,7 +58,7 @@ def tokenizer(inpExpr):
         if char == ")":
             toks.append({
                 "type":"right_paren",
-                "value":")"
+                "Value":")"
             })
             current += 1
             myChar+=1
@@ -66,7 +66,7 @@ def tokenizer(inpExpr):
         if char == "[":
             toks.append({
                 "type":"left_edged_paren",
-                "value":"["
+                "Value":"["
             })
             current += 1
             myChar+=1
@@ -74,7 +74,7 @@ def tokenizer(inpExpr):
         if char == "]":
             toks.append({
                 "type":"right_edged_paren",
-                "value":"]"
+                "Value":"]"
             })
             current += 1
             myChar+=1
@@ -91,7 +91,7 @@ def tokenizer(inpExpr):
                 char = inpExpr[current]
             toks.append({
                 "type":"string",
-                "value":string
+                "Value":string
             })
             current += 1
             myChar+=1
@@ -121,54 +121,54 @@ def tokenizer(inpExpr):
                 char = inpExpr[current]
             toks.append({
                 "type":"string",
-                "value":string
+                "Value":string
             })
             current += 1
             myChar+=1
             continue
         if re.match(numbers, char):
-            value = ""
+            Value = ""
             while re.match(numbers, char):
-                value+= char
+                Value+= char
                 current += 1
                 myChar+=1
                 char = inpExpr[current]
             toks.append({
                 "type":"number",
-                "value": value
+                "Value": Value
             })
             continue
         if re.match(alphabet, char):
-            value = ""
+            Value = ""
             ty = ""
             while re.match(alphabet, char):
-                value += char
+                Value += char
                 current += 1
                 myChar+=1
                 char = inpExpr[current]
             for key in keyWords:
-                if value == key:
+                if Value == key:
                     ty="key"
             if ty == "key":
                 toks.append({
                         "type": "key_word",
-                        "value": value
+                        "Value": Value
                     })
-            #elif value == "func":
+            #elif Value == "func":
             #    toks.append({
             #        "type": "function",
-            #        "value": value
+            #        "Value": Value
             #    })
             else:
                 toks.append({
                     "type": "name",
-                    "value": value
+                    "Value": Value
                 })
             continue
         if char == ";":
             toks.append({
                 "type": "semi",
-                "value":";"
+                "Value":";"
             })
             current += 1
             myChar+=1
@@ -176,7 +176,7 @@ def tokenizer(inpExpr):
         if char == ".": 
             toks.append({
                 "type": "dot",
-                "value":"."
+                "Value":"."
             })
             current += 1
             myChar+=1
@@ -184,7 +184,7 @@ def tokenizer(inpExpr):
         if char == "=":
             toks.append({
                 "type": "equ",
-                "value":"="
+                "Value":"="
             })
             current += 1
             myChar+=1

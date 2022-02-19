@@ -51,9 +51,9 @@ class Var(node):
         }
 
 class VALUE:
-    value=None
+    Value=None
     def stats(self):
-        return self.value
+        return self.Value
 
 def ERROR(toks, i):
     print(f"error at token: {i}")
@@ -80,7 +80,7 @@ def parser(toks):
     #def idk(toks):
     #    nToks = []
     #    for tok in toks:
-    #        nToks.append(tok.get("value"))
+    #        nToks.append(tok.get("Value"))
     #    return nToks
 
 
@@ -91,13 +91,13 @@ def parser(toks):
         tree = []
 
 
-        while i<len(toks) and toks[i].get("value") != end_tok:
-            if toks[i].get("value") in brackets:
-                parsedTree, parsedCount = parseStepOne(toks[i+1:], brackets[toks[i].get("value")])
+        while i<len(toks) and toks[i].get("Value") != end_tok:
+            if toks[i].get("Value") in brackets:
+                parsedTree, parsedCount = parseStepOne(toks[i+1:], brackets[toks[i].get("Value")])
                 tree.append({
                     "type": "bracket",
-                    "kind": toks[i].get("value"),
-                    "value": parsedTree
+                    "kind": toks[i].get("Value"),
+                    "Value": parsedTree
                 })
                 i+=parsedCount+1
             
@@ -105,7 +105,7 @@ def parser(toks):
                 tree.append(toks[i])
                 i+=1
         
-        if i < len(toks) and toks[i].get("value") == end_tok:
+        if i < len(toks) and toks[i].get("Value") == end_tok:
             i+=1
 
         return tree, i
@@ -116,7 +116,7 @@ def parser(toks):
         Line = []
         
         while i < len(toks):
-            if toks[i].get("value") == "class" or toks[i].get("value") == "func":
+            if toks[i].get("Value") == "class" or toks[i].get("Value") == "func":
                 nTree=[]
                 while toks[i].get("type") != "bracket":
                     nTree.append(toks[i])
@@ -125,7 +125,8 @@ def parser(toks):
                 i+=1
                 nTree.append(toks[i])                   
                 parsedTree, parsedCount = parseStepTwo(nTree)
-                tree.append(parsedTree)
+                for t in parsedTree:
+                    tree.append(t)
                 i+=1
             
             elif toks[i].get("type") == "semi":
@@ -149,36 +150,36 @@ def parser(toks):
 
         while i < len(toks):
             if toks[i].get("type") == "key_word":
-                if toks[i].get("value") == "class":
+                if toks[i].get("Value") == "class":
                     Node = Class()
                     Node.Type = "class"
                     i+=1
-                    Node.Id = toks[i].get("value")
-                    TYPES.append(toks[i].get("value"))
+                    Node.Id = toks[i].get("Value")
+                    TYPES.append(toks[i].get("Value"))
                     i+=1
                     if toks[i].get("kind") == "(":
-                        Node.Params = toks[i].get("value")
+                        Node.Params = toks[i].get("Value")
                         i+=1
                     if toks[i].get("kind") == "{":
-                        parsedTree, parsedCount =CallExpr(toks[i].get("value"))
+                        parsedTree, parsedCount =CallExpr(toks[i].get("Value"))
                         Node.Value = parsedTree
                         i+=1
                     else:
                         ERROR(toks, i)
                     tree.append(Node.stats())
                 
-                elif toks[i].get("value") == "func":
+                elif toks[i].get("Value") == "func":
                     Node = Class()
                     Node.Type = "function"
                     i+=1
-                    Node.Id = toks[i].get("value")
+                    Node.Id = toks[i].get("Value")
                     i+=1
                     if toks[i].get("kind") == "(":
-                        Node.Params = toks[i].get("value")
+                        Node.Params = toks[i].get("Value")
                         i+=1
                     if toks[i].get("kind") == "{":
 
-                        parsedTree, parsedCount =CallExpr((toks[i].get("value")))
+                        parsedTree, parsedCount =CallExpr((toks[i].get("Value")))
                         Node.Value = parsedTree
                         i+=1
                     else:
@@ -207,50 +208,51 @@ def parser(toks):
         Node = node()
 
         
-        if toks[i].get("type") == "key_word" and toks[i].get("value") != "this" or toks[i].get("value") in TYPES:
-            if toks[i].get("value") != "new" and toks[i].get("value") != "ret" and toks[i].get("value") != "return":
+        if toks[i].get("type") == "key_word" and toks[i].get("Value") != "this" or toks[i].get("Value") in TYPES:
+            if toks[i].get("Value") != "new" and toks[i].get("Value") != "ret" and toks[i].get("Value") != "return" and toks[i].get("Value") != "this":
                 Node = Var()
+                Node.Id = ""
                 Node.Type = "var"
                 while i<len(toks):
-                    if toks[i].get("type") == "key_word" or toks[i].get("value") in TYPES:
-                        if toks[i].get("value") == "private":
+                    if toks[i].get("type") == "key_word" or toks[i].get("Value") in TYPES:
+                        if toks[i].get("Value") == "private":
                             Node.visability = False
-                        elif toks[i].get("value") == "public":
+                        elif toks[i].get("Value") == "public":
                             Node.visability = True
-                        elif toks[i].get("value") in TYPES or "name":
-                            Node.Kind = toks[i].get("value")
+                        elif toks[i].get("Value") in TYPES or "name":
+                            Node.Kind = toks[i].get("Value")
                     elif toks[i].get("type") == "name" and Node.Id == "":
-                        Node.Id = toks[i].get("value")
+                        Node.Id = toks[i].get("Value")
                     elif toks[i].get("type") == "equ":
                         i+=1
                         Node.Value = parseStepThree(toks[i:])
                     i+=1
-            elif toks[i].get("value") == "new":
+            elif toks[i].get("Value") == "new":
                 Node = NEW()
-                Node.Type = toks[i].get("value")
+                Node.Type = toks[i].get("Value")
                 i+=1
-                Node.Id = toks[i].get("value")
+                Node.Id = toks[i].get("Value")
                 i+=1
-                Node.Params = toks[i].get("value")
+                Node.Params = toks[i].get("Value")
 
                 return Node.stats()
-            elif toks[i].get("value") == "ret" or toks[i].get("value") == "return":
+            elif toks[i].get("Value") == "ret" or toks[i].get("Value") == "return":
                 Node = node()
                 Node.Type = "return"
-                Node.Id = toks[i].get("value")
+                Node.Id = toks[i].get("Value")
                 i+=1
                 Node.Value = parseStepThree(toks[i:])
                 return Node.stats()
         elif toks[i].get("type") == "string":
             Node = VALUE()
-            Node.value = toks[i].get("value")
+            Node.Value = toks[i].get("Value")
             i+=1
         
         
         elif i+2 < len(toks):
             if toks[i+1].get("type") == "dot":
                 Node = node()
-                node.Id = toks[i].get("value")
+                Node.Id = toks[i].get("Value")
                 Node.Type = "modul"
                 i+=2
                 Node.Value = parseStepThree(toks[i:])
@@ -258,31 +260,46 @@ def parser(toks):
             elif toks[i+2].get("type") == "equ":
                 Node = Var()
                 Node.Type = "var"
-                if toks[i].get("value") in TYPES or toks[i].get("value") == "name":
-                    Node.Kind = toks[i].get("value")
+                if toks[i].get("Value") in TYPES or toks[i].get("Value") == "name":
+                    Node.Kind = toks[i].get("Value")
                     i+=1
+                Node.Value = parseStepThree(toks[i:])
+            elif toks[i].get("type") == "name":
+                Node = node()
+                Node.Type = "assignment"
+                Node.Id = toks[i].get("Value")
+                i+=2
                 Node.Value = parseStepThree(toks[i:])
 
                 
 
         elif toks[i].get("type") == "name":
             if i+1 < len(toks):
-                if toks[i+1].get("type") != "equ":
+                if toks[i+1].get("type") != "equ" and toks[i+1].get("type") != "bracket":
                     Node = RootNode()
                     Node.Type = "identifyer"
-                    Node.Id = toks[i].get("value")
-                
+                    Node.Id = toks[i].get("Value")
+                elif toks[i+1].get("type") == "bracket":
+                    Node = node()
+                    Node.Type="Call"
+                    Node.Id = toks[i].get("Value")
+                    i+=1
+                    if toks[i].get("Value") != []:
+                        Node.Value = parseStepThree(toks[i].get("Value"))
+                    else:
+                        Node.Value = []
+
                 else:
                     Node = node()
                     Node.Type = "assignment"
-                    Node.Id = toks[i].get("value")
+                    Node.Id = toks[i].get("Value")
                     i+=2
                     Node.Value = parseStepThree(toks[i:])
 
             else:
                 Node = RootNode()
                 Node.Type = "identifyer"
-                Node.Id = toks[i].get("value")
+                Node.Id = toks[i].get("Value")
 
 
 

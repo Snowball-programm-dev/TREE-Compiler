@@ -1,6 +1,7 @@
 
 class me
 {
+    get(bios);
     public string life = "yes";
     private string name;
 
@@ -12,9 +13,10 @@ class me
 
 }
 
-func main(string[] args)
+func main(string[] argv)
 {
     me new_me = new me();
     string life = new_me.life;
     string name = new_me.panda();
+
 }
