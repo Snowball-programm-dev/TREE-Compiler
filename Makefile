@@ -1,8 +1,12 @@
-cc=/bin/python
-src=/home/pan/workspace/cpp/tree/src
-file=main.py
+cc=/bin/clang++
+py=/bin/python
+src=/home/pan/workspace/cpp/tree
+cppFile=out.cpp
+file=src/main.py
 
 run:
 	clear
-	${cc} ${src}/${file}
+	${py} ${src}/${file}
 
+cpp:
+	${cc} ${src}/${cppFile}

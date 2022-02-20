@@ -9,9 +9,10 @@ class Vars:
             "value": self.Value
         }
 
-
+secret = ""
 
 def code_generation(ast):
+    global secret
     header = '#include "src/lib/native.cpp"\n'
     code = '#include "header.h"\n'
 
@@ -46,14 +47,22 @@ def code_generation(ast):
 
     def get_Get(ast):
         get=[]
-        for b in ast:
-            if b.get("type") == "class" or b.get("type") == "function":
+        if type(ast) == type([]):
+            for b in ast:
+                if b.get("type") == "class" or b.get("type") == "function" or b.get("kind") == "object":
+                    for g in get_Get(b.get("Value")):
+                        get.append(g)
+                elif b.get("type") == "Call" and b.get("id") == "get":
+                    get.append(b.get("Value"))
+        else:
+            b=ast
+            if b.get("type") == "class" or b.get("type") == "function" or b.get("kind") == "object":
                 for g in get_Get(b.get("Value")):
                     get.append(g)
             elif b.get("type") == "Call" and b.get("id") == "get":
                 get.append(b.get("Value"))
-                #for g in b.get("Value"):
-                #    get.append(g)
+        
+
 
 
         return get
@@ -79,7 +88,13 @@ def code_generation(ast):
         NEW_PARAMS = ""
         if params == []:
             return ""
-        return f""
+        
+        else:
+            if params.get("type") == "identifyer":
+                NEW_PARAMS += params.get("id") + ""
+
+        
+        return NEW_PARAMS
 
     def varView(var):
         node = Vars()
@@ -90,6 +105,7 @@ def code_generation(ast):
 
     def CallHandler(call):
         NEW_GENERATED_CODE = ""
+        global secret
         if type(call) == type([]):
             print(call)
         else:
@@ -105,15 +121,19 @@ def code_generation(ast):
                 NEW_GENERATED_CODE += ";\n"
             
             if call.get("type") == "modul":
-                NEW_GENERATED_CODE += call.get("id") + "->" + CallHandler(call.get("Value"))
-                NEW_GENERATED_CODE += ""
+                next = call.get("Value")
+                #if next.get("type") == "Call":
+                #    NEW_GENERATED_CODE += call.get("id") + "." + CallHandler(next)
+                #else:
+                NEW_GENERATED_CODE += call.get("id") + "->" + CallHandler(next)
             
             if call.get("type") == "class" or call.get("type") == "function":
                 NEW_GENERATED_CODE += stepThree(call)
             
             if call.get("type") == "Call":
                 if call.get("id") == "get" and call.get("Value").get("type") != "string":
-                    NEW_GENERATED_CODE +="\n"
+                    secret = CallHandler(call.get("Value"))
+                    NEW_GENERATED_CODE +="new "+ secret +"\n"
                 else:
                     NEW_GENERATED_CODE += call.get("id") + "(" + param_handler(call.get("Value")) + ")"
                     NEW_GENERATED_CODE += ";\n"
@@ -131,6 +151,17 @@ def code_generation(ast):
                     NEW_GENERATED_CODE += "float " + call.get("id")
                     NEW_GENERATED_CODE += varHandler(call)
                     varView(call)
+                elif call.get("kind") == "object":
+                    newList = []
+                    varHandler(call)
+                    newList[:0] = secret
+                    for n in newList[:len(secret)-2]:
+                        NEW_GENERATED_CODE += n
+                    NEW_GENERATED_CODE += " *" + call.get("id")
+                    NEW_GENERATED_CODE += varHandler(call)
+                    
+
+
                 
                 else:
                     NEW_GENERATED_CODE += call.get("kind") + "* " + call.get("id")
@@ -140,7 +171,7 @@ def code_generation(ast):
                 NEW_GENERATED_CODE += ";\n"
 
             if call.get("type") == "return":
-                NEW_GENERATED_CODE += "return " + CallHandler(call)
+                NEW_GENERATED_CODE += "return " + CallHandler(call.get("Value"))
 
         return NEW_GENERATED_CODE
                 
@@ -199,7 +230,6 @@ def code_generation(ast):
                 FuncType = "void"
                 for call in a.get("Value"):
                     if call.get("type") == "return":
-                        print(call.get("Value").get("type"))
                         if call.get("Value").get("type") == "modul":
                             if call.get("Value").get("Value").get("type") != "modul":
                                 for var in vars:

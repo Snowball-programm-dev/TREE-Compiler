@@ -17,10 +17,9 @@ i was bored
 
 ## issues
 
-the code generation isn't made yet
-and the compiler dosn't compile yet
+ignores public and private variables, might be that multiple "get" of the same lib cause errors
 
 ## then what works?
 
-the lexer and the parser do work now!
+does compile to some basic c++ code
 
