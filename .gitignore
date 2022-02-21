@@ -173,3 +173,4 @@ a.out
 out.cpp
 test.ast
 test.toks
+header.h

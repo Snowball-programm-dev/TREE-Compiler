@@ -13,4 +13,12 @@ cpp:
 
 
 clean:
-	rm out.cpp header.h a.out test.*
+	rm out.cpp header.h test.*
+
+clean_cpp:
+	rm a.out
+
+commit:
+	git add .
+	git commit -m 'small Update'
+	git push -u origin master

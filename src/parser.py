@@ -248,6 +248,10 @@ def parser(toks):
             Node.Value = toks[i].get("Value")
             i+=1
         
+        elif toks[i].get("type") == "number":
+            Node = VALUE()
+            Node.Value = int(toks[i].get("Value"))
+            i+=1
         
         elif i+2 < len(toks):
             if toks[i+1].get("type") == "dot":

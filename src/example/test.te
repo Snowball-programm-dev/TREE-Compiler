@@ -1,6 +1,13 @@
+class me
+{
+    int idk = 10;
+}
+
+
 func main(string[] argv)
 {
+    object h = new me();
     object io = get(bios);
     io.print("Hello, world!");
-
+    
 }

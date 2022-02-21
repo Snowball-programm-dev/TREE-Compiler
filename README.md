@@ -17,7 +17,7 @@ i was bored
 
 ## issues
 
-ignores public and private variables, might be that multiple "get" of the same lib cause errors
+ignores public and private variables, might be that multiple "get" of the same lib cause errors,floats might not work, can only print out a string, can not  convert numbers to string
 
 ## then what works?
 

@@ -187,7 +187,10 @@ def code_generation(ast):
             elif call.get("kind") == "string" or type(call.get("Value")) == type(""):
                 NEW_GENERATED_CODE += '"' + call.get("Value") + '"'
             else:
-                NEW_GENERATED_CODE += call.get("Value")
+                if type(call.get("Value")) == type(""):
+                    NEW_GENERATED_CODE += call.get("Value")
+                else:
+                    NEW_GENERATED_CODE += str(call.get("Value"))
 
         
         return NEW_GENERATED_CODE
