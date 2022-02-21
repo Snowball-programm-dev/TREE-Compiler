@@ -10,3 +10,7 @@ run:
 
 cpp:
 	${cc} ${src}/${cppFile}
+
+
+clean:
+	rm out.cpp header.h a.out test.*
