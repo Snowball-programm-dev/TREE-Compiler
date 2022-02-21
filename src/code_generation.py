@@ -89,6 +89,9 @@ def code_generation(ast):
         if params == []:
             return ""
         
+        elif type(params) == type(""):
+            NEW_PARAMS += '"' + params + '"'
+
         else:
             if params.get("type") == "identifyer":
                 NEW_PARAMS += params.get("id") + ""
@@ -131,7 +134,7 @@ def code_generation(ast):
                 NEW_GENERATED_CODE += stepThree(call)
             
             if call.get("type") == "Call":
-                if call.get("id") == "get" and call.get("Value").get("type") != "string":
+                if call.get("id") == "get" and type(call.get("Value")) != type("string"):
                     secret = CallHandler(call.get("Value"))
                     NEW_GENERATED_CODE +="new "+ secret +"\n"
                 else:

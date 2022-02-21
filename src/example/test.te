@@ -1,24 +1,6 @@
-
-class me
-{
-    object io = get(bios);
-    public string life = "yes";
-    private string name;
-
-    func panda()
-    {
-        this.name = "Panda";
-        ret this.name;
-    }
-
-}
-
 func main(string[] argv)
 {
-    me new_me = new me();
-    string life = new_me.life;
-    string name = new_me.panda();
-    new_me.io.print(name);
-    new_me.io.print(life);
+    object io = get(bios);
+    io.print("Hello, world!");
 
 }
